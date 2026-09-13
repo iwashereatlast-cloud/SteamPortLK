@@ -1,0 +1,15 @@
+## Interface: 30300
+## Title: SteamPortLK
+## Notes: Steam Deck controller addon for World of Warcraft - Wrath of the Lich King (3.3.5a)
+## Version: 0.1.0
+## Author: iwashereatlast
+## SavedVariables: SteamPortLKSettings
+## SavedVariablesPerCharacter: SteamPortLKBindingSet
+
+Init.lua
+Camera\Camera.lua
+Cursor\Cursor.lua
+Bindings\Bindings.lua
+ButtonConfig\SteamDeck.lua
+ButtonConfig\Display.lua
+Bindings\Bindings.xml
