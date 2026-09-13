@@ -7,8 +7,8 @@
 ## SavedVariablesPerCharacter: SteamPortLKBindingSet
 
 Init.lua
-Bindings\Bindings.xml
-Bindings\Bindings.lua
 Camera\Camera.lua
+Bindings\Bindings.lua
 ButtonConfig\SteamDeck.lua
 ButtonConfig\Display.lua
+Bindings\Bindings.xml
