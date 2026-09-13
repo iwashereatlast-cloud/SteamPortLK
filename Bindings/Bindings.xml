@@ -1,0 +1,71 @@
+<Bindings>
+	<!-- D-Pad -->
+	<Binding name="CP_L_UP" category="SteamPortLK " header="CP_LEFT"/>
+	<Binding name="CP_L_DOWN" category="SteamPortLK "/>
+	<Binding name="CP_L_LEFT" category="SteamPortLK "/>
+	<Binding name="CP_L_RIGHT" category="SteamPortLK "/>
+
+	<!-- ABXY face buttons -->
+	<Binding name="CP_R_UP" category="SteamPortLK " header="CP_RIGHT"/>
+	<Binding name="CP_R_DOWN" category="SteamPortLK "/>
+	<Binding name="CP_R_LEFT" category="SteamPortLK "/>
+	<Binding name="CP_R_RIGHT" category="SteamPortLK "/>
+
+	<!-- Center (Select / Menu) -->
+	<Binding name="CP_X_RIGHT" category="SteamPortLK " header="CP_CENTER"/>
+	<Binding name="CP_X_LEFT" category="SteamPortLK "/>
+
+	<!-- Triggers / bumpers -->
+	<Binding name="CP_T1" category="SteamPortLK " header="CP_TRIG"/>
+	<Binding name="CP_T2" category="SteamPortLK "/>
+	<!-- Back grip buttons (L4/R4/L5/R5) -->
+	<Binding name="CP_T3" category="SteamPortLK " header="CP_GRIP"/>
+	<Binding name="CP_T4" category="SteamPortLK "/>
+	<Binding name="CP_T5" category="SteamPortLK "/>
+	<Binding name="CP_T6" category="SteamPortLK "/>
+
+	<!-- Stick clicks -->
+	<Binding name="CP_T_L3" category="SteamPortLK " header="CP_STICK"/>
+	<Binding name="CP_T_R3" category="SteamPortLK "/>
+
+	<!-- Camera -->
+	<Binding name="CP_CAMZOOMIN" hidden="true">
+		CameraZoomIn(5.0);
+	</Binding>
+	<Binding name="CP_CAMZOOMOUT" hidden="true">
+		CameraZoomOut(5.0);
+	</Binding>
+	<Binding name="CP_ZOOMIN_HOLD" runOnUp="true" hidden="true">
+		if ( keystate == "down" ) then
+			SteamPortLK:CameraZoom(true, 1);
+		else
+			SteamPortLK:CameraZoom(false);
+		end
+	</Binding>
+	<Binding name="CP_ZOOMOUT_HOLD" runOnUp="true" hidden="true">
+		if ( keystate == "down" ) then
+			SteamPortLK:CameraZoom(true, -1);
+		else
+			SteamPortLK:CameraZoom(false);
+		end
+	</Binding>
+	<Binding name="CP_CAMLOOKBEHIND" runOnUp="true" hidden="true">
+		SteamPortLK:LookBehind(keystate == "down");
+	</Binding>
+
+	<!-- Right-stick steering (analog) -->
+	<Binding name="CP_STEER_HORZ" runOnUp="true" hidden="true">
+		SteamPortLK:SetSteerAxis("HORZ", tonumber(value) or 0);
+	</Binding>
+	<Binding name="CP_STEER_VERT" runOnUp="true" hidden="true">
+		SteamPortLK:SetSteerAxis("VERT", tonumber(value) or 0);
+	</Binding>
+	<Binding name="CP_STEER_STOP" hidden="true">
+		SteamPortLK:StopSteer();
+	</Binding>
+
+	<!-- Toggle the virtual cursor -->
+	<Binding name="CP_TOGGLEMOUSE" hidden="true">
+		SteamPortLK:ToggleCursor();
+	</Binding>
+</Bindings>
