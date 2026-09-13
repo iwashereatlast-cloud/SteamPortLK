@@ -10,7 +10,8 @@ Early scaffold. Three modules are stubbed against the ConsolePortLK patterns:
 | --- | --- | --- |
 | **Button config + display** | `ButtonConfig/SteamDeck.lua`, `ButtonConfig/Display.lua` | Steam Deck button layout, ABXY colors, blueprint placement, and a config panel listing each button's bound actions per modifier layer |
 | **Camera** | `Camera/Camera.lua` | Camera cvar loading, throttled zoom driver, and right-stick yaw/pitch steering |
-| **Binding handler** | `Bindings/Bindings.xml`, `Bindings/Bindings.lua` | Registers the `CP_*` bind names and routes button presses through a modifier-aware action resolver |
+| **Binding handler** | `Bindings/Bindings.xml`, `Bindings/Bindings.lua` | Registers the `CP_*` bind names, routes each button press through `OnButtonPress`, and resolves the action for the active modifier layer (`''` / `SHIFT-` / `CTRL-` / `CTRL-SHIFT-`) |
+| **Virtual cursor** | `Cursor/Cursor.lua` | A gamepad-driven cursor overlay (`CP_TOGGLEMOUSE`) moved by analog sticks (`CP_CURSOR_X/Y`) with left/right-click dispatch to UI or world targets |
 
 ## Layout
 
@@ -20,9 +21,11 @@ SteamPortLK/
   Init.lua               namespace bootstrap + slash commands (/splk)
   Bindings/
     Bindings.xml         CP_* binding name registration + handler bodies
-    Bindings.lua         modifier-aware action resolver + cursor toggle
+    Bindings.lua         modifier-aware action resolver + OnButtonPress
   Camera/
     Camera.lua           cvars, zoom driver, right-stick steering
+  Cursor/
+    Cursor.lua           gamepad-driven virtual cursor + click dispatch
   ButtonConfig/
     SteamDeck.lua        Steam Deck preset (Color / Settings / Layout / Bind)
     Display.lua          two-sided blueprint + binding list window
@@ -36,7 +39,19 @@ SteamPortLK/
 /splk reload     Reload the UI
 /splk zoom in    Trigger a camera zoom-in (test)
 /splk zoom out   Trigger a camera zoom-out (test)
+/splk cursor     Toggle the virtual cursor on/off
 ```
+
+### Controller bindings (set via Steam Input / WoWpadX)
+
+| Bind | Action |
+| --- | --- |
+| `CP_R_*` / `CP_L_*` / `CP_T1`–`CP_T6` / `CP_X_*` | Face / D-pad / triggers+grips / center buttons → routed through the modifier-aware action resolver |
+| `CP_STEER_HORZ/VERT` | Right-stick analog camera steering |
+| `CP_ZOOMIN_HOLD` / `CP_ZOOMOUT_HOLD` | Hold-to-zoom (throttled) |
+| `CP_TOGGLEMOUSE` | Toggle the virtual cursor |
+| `CP_CURSOR_X/Y` | Left-stick analog cursor movement |
+| `CP_CURSOR_LEFT/RIGHT` | Virtual cursor click / right-click |
 
 ## Notes
 

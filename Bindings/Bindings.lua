@@ -43,16 +43,28 @@ function Addon:GetBoundAction(bindId)
 	return layers[Addon:GetActiveModifier()] or layers['']
 end
 
--- Execute an action string. Supports both SLASH commands and the
--- raw ACTIONBUTTON*/MULTIACTIONBAR* binding tokens.
+-- Execute an action string.
+--  * Tokens beginning with "CLICK " dispatch a frame OnClick via RunMacroText.
+--  * Tokens that look like slash commands (start with "/") run as macros.
+--  * Anything else is treated as a WoW binding token (ACTIONBUTTON1, JUMP, ...)
+--    and dispatched via RunBinding.
 function Addon:RunAction(action)
 	if not action or action == '' then return end
-	local slash = _G['SLASH_' .. action]
-	if slash then
-		RunMacroText(slash)
+	if action:sub(1, 6) == 'CLICK ' then
+		local ok = pcall(RunMacroText, action)
+		if not ok and DEFAULT_CHAT_FRAME then
+			DEFAULT_CHAT_FRAME:AddMessage('SteamPortLK: could not click ' .. action)
+		end
 		return
 	end
-	-- Treat as a WoW binding token and dispatch via SetBindingClick fallback.
+	if action:sub(1, 1) == '/' then
+		local ok = pcall(RunMacroText, action)
+		if not ok and DEFAULT_CHAT_FRAME then
+			DEFAULT_CHAT_FRAME:AddMessage('SteamPortLK: could not run ' .. action)
+		end
+		return
+	end
+	-- WoW binding token (ACTIONBUTTON1, JUMP, TARGETNEARESTENEMY, OPENCHAT, ...)
 	local ok = pcall(RunBinding, action)
 	if not ok and DEFAULT_CHAT_FRAME then
 		DEFAULT_CHAT_FRAME:AddMessage('SteamPortLK: could not run action ' .. tostring(action))
@@ -88,21 +100,6 @@ function Addon:LoadDefaultBindings()
 	SaveBindings(2) -- per-character
 end
 
----------------------------------------------------------------
--- Virtual cursor toggle (CP_TOGGLEMOUSE)
---
--- Minimal stub: toggles the WoW cursor state. A full mouse
--- emulation driver is out of scope for this initial scaffold.
----------------------------------------------------------------
-local cursorActive = false
-function Addon:ToggleCursor()
-	cursorActive = not cursorActive
-	if cursorActive then
-		-- Release mouse look so the cursor is usable for UI.
-		CameraOrSelectOrMoveStop()
-		TurnOrActionStop()
-		DEFAULT_CHAT_FRAME:AddMessage('|cff739BD0SteamPortLK|r cursor: ON')
-	else
-		DEFAULT_CHAT_FRAME:AddMessage('|cff739BD0SteamPortLK|r cursor: OFF')
-	end
-end
+-- Virtual cursor driver lives in Cursor/Cursor.lua; this module
+-- only references Addon:ToggleCursor / SetCursorAxis / CursorClick
+-- from the binding bodies defined in Bindings.xml.

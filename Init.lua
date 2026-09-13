@@ -71,6 +71,7 @@ SlashCmdList['STEAMPORTLK'] = function(msg)
 		DEFAULT_CHAT_FRAME:AddMessage('  /splk config    - Open the button config display')
 		DEFAULT_CHAT_FRAME:AddMessage('  /splk reload    - Reload the UI')
 		DEFAULT_CHAT_FRAME:AddMessage('  /splk zoom in|out - Test camera zoom')
+		DEFAULT_CHAT_FRAME:AddMessage('  /splk cursor   - Toggle the virtual cursor')
 	elseif msg == 'config' then
 		if Addon.OpenDisplay then
 			Addon:OpenDisplay()
@@ -79,6 +80,12 @@ SlashCmdList['STEAMPORTLK'] = function(msg)
 		end
 	elseif msg == 'reload' then
 		ReloadUI()
+	elseif msg == 'cursor' then
+		if Addon.ToggleCursor then
+			Addon:ToggleCursor()
+		else
+			DEFAULT_CHAT_FRAME:AddMessage('Virtual cursor not available.')
+		end
 	elseif msg == 'zoom in' then
 		if Addon.CameraZoom then Addon:CameraZoom(true, 1) end
 	elseif msg == 'zoom out' then

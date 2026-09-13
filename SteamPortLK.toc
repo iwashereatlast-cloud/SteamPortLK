@@ -8,6 +8,7 @@
 
 Init.lua
 Camera\Camera.lua
+Cursor\Cursor.lua
 Bindings\Bindings.lua
 ButtonConfig\SteamDeck.lua
 ButtonConfig\Display.lua
